@@ -1,0 +1,38 @@
+name: Deploy Zola Site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or 'master' depending on your default branch name
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # Enable if you use git submodules for themes
+
+      - name: Build and deploy Zola
+        uses: getzola/github-pages@v2
+        with:
+          # Specify your desired Zola version here (e.g., v0.23.6)
+          zola_version: "v0.23.6"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

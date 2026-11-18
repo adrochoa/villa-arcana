@@ -3,7 +3,7 @@ name: Deploy Zola Site to GitHub Pages
 on:
   push:
     branches:
-      - main # Or 'master' depending on your default branch name
+      - master # Or 'main' depending on your default branch name
 
 permissions:
   contents: read
